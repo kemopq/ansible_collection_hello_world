@@ -1,2 +1,3 @@
-# ansible_collection_hello_world
-Hello world ansible collection
+# Ansible Collection - emo_p.hello_world
+
+Documentation for the collection.
