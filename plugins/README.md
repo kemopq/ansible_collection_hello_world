@@ -1,8 +1,8 @@
 # Collections Plugins
 ### Filters
-- filter_to_upper(str) -> str
+- filter_to_upper(str) -> str  
 Converts lowercase letters in string to uppercase
 
 ### Modules
-- signfile
+- signfile  
 Inserts provided name and date to file.
