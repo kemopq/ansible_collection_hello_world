@@ -8,7 +8,7 @@
     content: "Hello World from kemopq/hello_world collection"
     dest: /tmp/testfile.txt
     mode: 0666
-    force: no
+    force: 'no'
 
 - name: "Add sign to file /tmp/testfile.txt"
   kemopq.hello_world.signfile:

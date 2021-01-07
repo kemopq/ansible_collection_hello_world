@@ -4,6 +4,9 @@
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
+from ansible.module_utils.basic import AnsibleModule
+import os
+import datetime
 
 DOCUMENTATION = r'''
 ---
@@ -51,10 +54,6 @@ stat:
     sample: 'true'
 '''
 
-from ansible.module_utils.basic import AnsibleModule
-import os
-import datetime
-
 
 def run_module():
     # define available arguments/parameters a user can pass to the module
@@ -83,38 +82,38 @@ def run_module():
         supports_check_mode=True
     )
 
-    #the body of the module
+    # the body of the module
     result['path'] = module.params['path']
 
-    #check if the file exists
-    if( os.path.exists(module.params['path']) ):
-        result['stat']=True
-        #check if a sign is already in the file
+    # check if the file exists
+    if(os.path.exists(module.params['path'])):
+        result['stat'] = True
+        # check if a sign is already in the file
         with open(module.params['path']) as fp:
-            all_lines=fp.readlines()
-        if( all_lines[0][0:5] == "SIGN:" ):
-            result['changed']=False
-    else : 
+            all_lines = fp.readlines()
+        if(all_lines[0][0:5] == "SIGN:"):
+            result['changed'] = False
+    else:
         all_lines = []
 
     # if the user is working with this module in only check mode we do not
     # want to make any changes to the environment, just return the current
     # state with no modifications
-    if( module.check_mode or not result['changed'] ):
+    if(module.check_mode or not result['changed']):
         module.exit_json(**result)
 
     # during the execution of the module, if there is an exception or a
     # conditional state that effectively causes a failure, run
     # AnsibleModule.fail_json() to pass in the message and the result
-    #if module.params['name'] == 'fail me':
-    #    module.fail_json(msg='You requested this to fail', **result)
+    # if module.params['name'] == 'fail me':
+    #     module.fail_json(msg='You requested this to fail', **result)
 
-    #sign the file
+    # sign the file
     ft = datetime.datetime.now()
-    sign_line="SIGN: " + module.params['name'] + "  " + ft.strftime("%c") + "\n"
-    all_lines.insert(0,sign_line)
+    sign_line = "SIGN: " + module.params['name'] + "  " + ft.strftime("%c") + "\n"
+    all_lines.insert(0, sign_line)
     with open(module.params['path'], "wt") as fp:
-        fp.writelines(all_lines) 
+        fp.writelines(all_lines)
     # in the event of a successful module execution, you will want to
     # simple AnsibleModule.exit_json(), passing the key/value results
     module.exit_json(**result)
