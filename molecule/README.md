@@ -1,8 +1,16 @@
-# Testing Ansible Collection without and with molecule
+# Testing Ansible Collection with molecule(docker) and without it
 ### Prepare testing environment
+#### Install and run docker
+On Ubuntu18.04/20.04:
+```
+sudo apt update
+sudo apt install docker.io
+sudo service docker start
+```
+On other OS, search the net.
 #### Install molecule
 ```
-pip install molecule[docker,lint]
+pip3 install molecule[docker,lint]
 ```
 Package is installed on _~/.local/bin_ folder. Check if installation was OK:
 ```
@@ -11,6 +19,21 @@ molecule 3.2.0 using python 3.8
     ansible:2.10.3
     delegated:3.2.0 from molecule
     docker:0.2.4 from molecule_docker
+```
+
+#### Configure lint
+Lint can be configured in _~/.config/yamllint/config file_.  
+I changed a few default options (max line length, comment identation)
+```
+# It extends the default conf by adjusting some options.
+
+extends: default
+
+rules:
+  comments-indentation: disable  # don't bother me with this rule
+  line-length:
+    max: 150
+    level: warning
 ```
 
 #### Add testing scenario

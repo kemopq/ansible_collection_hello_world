@@ -5,6 +5,14 @@ The integration testing with molecule is included and also described on testing 
 The collection consists of two roles and two plugins (filter and module). 
 The descriptions of roles and plugins are in README files on role's and plugin's folder.
 
+### Requirements
+Install python3, pip3 and ansible:
+```
+sudo apt update
+sudo apt install python3 python3-pip
+sudo pip3 install ansible
+```
+
 ### Installing collection  
 Install this collection locally:
 ```
@@ -79,6 +87,18 @@ or using _collections_ keyword to define collection and then using simple names 
 ```
 More info can be read on:
 https://docs.ansible.com/ansible/latest/user_guide/collections_using.html
+
+### Runing your playbook on localhost
+Enable passwordless ssh to localhost:
+```
+cd .ssh
+ssh-keygen
+cat id_rsa.pub >> authorized_keys
+```
+Run ansible playbook:
+```
+ansible-playbook -i localhost, your_playbook.yml
+```
 
 ### Testing collection
 Testing of the collection is done by _Molecule_ testing tool with Docker driver. The roles and module is tested on two hosts (Centos8, Ubuntu2008). Docker images prepared by @geerlingguy are used.  
