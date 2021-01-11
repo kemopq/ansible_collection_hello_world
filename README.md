@@ -15,28 +15,31 @@ https://docs.ansible.com/ansible/latest/reference_appendices/config.html#ansible
 ```
 [defaults]
 collections_path = ./collection
+host_key_checking = False
 ```
+Additional parameter host_key_checking is added, so ssh is done without key checking.
 
 ### Using collection  
 Roles and plugins can be used on your ansible playbook. It can be referenced by its fully qualified collection name (FQCN):
 ```
+---
 - name: Your awesome playbook
   hosts: all
   gather_facts: 'no'
-  
+
   tasks:
     - name: "Include hello_world role"
-        include_role:
-           name: "kemopq.hello_world.hello_world_role"
+      include_role:
+        name: "kemopq.hello_world.hello_world_role"
 
     - name: "Include print_facts role"
-       include_role:
-           name: "kemopq.hello_world.print_facts_role"
+      include_role:
+        name: "kemopq.hello_world.print_facts_role"
 
     - name: "Add sign to file /tmp/testfile.txt"
-       kemopq.hello_world.signfile:
-          name: Bruce Willis
-          path: "/tmp/testfile.txt"
+      kemopq.hello_world.signfile:
+        name: Bruce Willis
+        path: "/tmp/testfile.txt"
 
     - name: Print string to_upper
       vars:
@@ -46,26 +49,27 @@ Roles and plugins can be used on your ansible playbook. It can be referenced by 
 ```
 or using _collections_ keyword to define collection and then using simple names of roles (plugins still need FQCN):
 ```
-- name: Your awsome playbook
+---
+- name: Your awesome playbook
   hosts: all
-  gather_facts: no
+  gather_facts: 'no'
 
   collections:
     - kemopq.hello_world
-    
+
   tasks:
     - name: "Include hello_world role"
-        include_role:
-           name: "hello_world_role"
+      include_role:
+        name: "hello_world_role"
 
     - name: "Include print_facts role"
-       include_role:
-           name: "print_facts_role"
+      include_role:
+        name: "print_facts_role"
 
     - name: "Add sign to file /tmp/testfile.txt"
-       signfile:
-          name: Bruce Willis
-          path: "/tmp/testfile.txt"
+      signfile:
+        name: Bruce Willis
+        path: "/tmp/testfile.txt"
 
     - name: Print string to_upper
       vars:
